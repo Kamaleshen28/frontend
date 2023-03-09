@@ -6,6 +6,8 @@ import '@blueprintjs/core/lib/css/blueprint.css';
 import { Overlay, Classes } from '@blueprintjs/core';
 import editIcon from '../../assets/user-edit-text-message-note_2023-03-09/user-edit-text-message-note.png';
 import deleteIcon from '../../assets/trash-delete-recycle-bin-bucket-waste_2023-03-09/trash-delete-recycle-bin-bucket-waste@3x.png';
+import searchIconDark from '../../assets/icon-search-dark_2023-03-09/icon-search-dark@3x.png';
+import searchIconLight from '../../assets/icon-search-dark_2023-03-09/icon-search-dark@2x.png';
 
 export default function Home() {
 
@@ -17,6 +19,7 @@ export default function Home() {
     contentSchema: {}
   });
   const [currentClickedContent, setCurrentClickedContent] = useState({
+    id: 0,
     contentName: '',
     contentSchema: {}
   });
@@ -105,13 +108,52 @@ export default function Home() {
     console.log('GOT', allContentNamesMiddleSection);
   };
 
+  const handleClickCardDelete = async (fieldD) => {
+    // var data = JSON.stringify({
+    //   'contentId': 2,
+    //   'field': 'netWorth'
+    // });
+
+    // var config = {
+    //   method: 'put',
+    //   maxBodyLength: Infinity,
+    //   url: 'http://localhost:4000/upadte/contenttype/schema/delete',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   data: data
+    // };
+
+    // axios(config);
+
+    const respose = await axios.put('http://localhost:4000/upadte/contenttype/schema/delete', {
+      contentId: currentClickedContent.id,
+      field: fieldD
+    });
+    const result = await axios.get(`http://localhost:4000/data/content/${currentClickedContent.contentName}`);
+    setCurrentClickedContent(result.data.message);
+    console.log('WWW: ', result);
+    console.log('YYY: ', respose);
+    console.log('XXX: ', currentClickedContent);
+  };
+
   const renderContentSchema = Object.keys(currentClickedContent.contentSchema).map((key, index) => {
     return (
       <div key={index} className='content-schema-card'>
-        <div className="Ab-text">Ab</div>
-        <div className='schema-name'>{currentClickedContent.contentSchema[key]}</div>
-        <img src={editIcon} alt="" className="content-schema-card-edit" />
-        <img src={deleteIcon} alt="" className="content-schema-card-delete" />
+        <div className="content-schema-card-left">
+          <div className="Ab-text">Ab</div>
+          <div className='schema-name'>{key}</div>
+          {/* <div className='schema-name'>{currentClickedContent.contentSchema[key]}</div> */}
+          <span className="datatype-text">Text</span>
+        </div>
+        <div className="content-schema-card-right">
+          {/* <img src={editIcon} onClick={handleClickCardEdit} alt="" className="content-schema-card-edit" /> */}
+          <img src={editIcon} alt="" className="content-schema-card-edit" />
+          <img src={deleteIcon} onClick={() => handleClickCardDelete(key)} alt="" className="content-schema-card-delete" />
+        </div>
+
+
+
       </div>
     );
   });
@@ -129,7 +171,7 @@ export default function Home() {
           <div className="sidebar-body">
             <div className="sidebar-body-header">
               <div className="sidebar-body-header-text">COLLECTION  TYPES</div>
-              <div className="sidebar-body-header-search-icon">Q</div>
+              <img src={searchIconLight} alt="" className="search-icon" />
             </div>
 
             <div className="sidebar-body-list">
@@ -157,7 +199,7 @@ export default function Home() {
 
               <div className="middle-section-header">
                 <div className="middle-section-types-number">7 Types</div>
-                <div className="middle-section-search-icon">Q</div>
+                <img src={searchIconDark} alt="" className="search-icon" />
               </div>
 
               <div className="middle-section-button" onClick={handleCreateNewContentClick}>

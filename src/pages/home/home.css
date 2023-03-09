@@ -73,6 +73,7 @@
 
 .content-name-text {
   margin-top: 10px;
+  cursor: pointer;
 }
 
 .sidebar-content-type-builder-text {
@@ -86,6 +87,9 @@
   padding-left: 10px;
 }
 
+.search-icon {
+  height: 12px;
+}
 
 
 
@@ -115,6 +119,7 @@
 
 .new-type-button {
   font-size: 10px;
+  cursor: pointer;
 }
 
 
@@ -215,6 +220,7 @@ select:focus {
   align-items: center;
   justify-content: center;
   margin-top: 20px;
+  cursor: pointer;
 }
 
 .content-schema-card {
@@ -224,6 +230,7 @@ select:focus {
   background-color: white;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   /* padding-left: 10px; */
 }
 
@@ -242,4 +249,32 @@ select:focus {
 .schema-name {
   margin-left: 10px;
   font-size: 8px;
+}
+
+.content-schema-card-edit {
+  height: 6px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.content-schema-card-delete {
+  height: 6px;
+  cursor: pointer;
+}
+
+.content-schema-card-left {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.content-schema-card-right {
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+}
+
+.datatype-text {
+  font-size: 7px;
+  margin-left: 70px;
 }
