@@ -39,7 +39,6 @@ export default function AllInstances(props) {
     );
   });
 
-  console.log('HEREHEREHERE: ', contentInstanceData);
   let renderAllInstanceData = [];
 
   if (contentInstanceData.length != 0) {
@@ -102,18 +101,6 @@ export default function AllInstances(props) {
 AllInstances.propTypes = {
   id: PropTypes.number.isRequired,
   contentSchema: PropTypes.object.isRequired
-  // name: PropTypes.string.isRequired,
-  // description: PropTypes.string.isRequired,
-  // venue: PropTypes.string.isRequired,
-  // imgUrl: PropTypes.string.isRequired,
-  // isBookmarked: PropTypes.bool.isRequired,
-  // isRegistered: PropTypes.bool.isRequired,
-  // areSeatsAvailable: PropTypes.bool.isRequired,
-  // handleOnClickBookmark: PropTypes.func.isRequired,
-  // handleRegisterButtonClick: PropTypes.func.isRequired,
-  // id: PropTypes.number.isRequired,
-
-  // datetime: PropTypes.string.isRequired
 };
 
 
