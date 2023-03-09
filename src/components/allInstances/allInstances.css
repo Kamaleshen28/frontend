@@ -1,0 +1,79 @@
+.allinstances-wrapper {
+  background-color: #E2EBF9;
+  padding: 20px;
+  height: 100%;
+}
+
+.allinstances-top-section {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+}
+
+.number-of-instances {
+  font-weight: bold;
+}
+
+.add-new-entry-text {
+  color: blueviolet;
+  cursor: pointer;
+}
+
+.allinstances-middle-section {
+  margin-top: 20px;
+  display: flex;
+  font-size: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.allinstances-middle-section-left {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.allinstances-middle-section-right {
+  padding-right: 20px;
+}
+
+.field-name {
+  margin-left: 20px;
+}
+
+.value-text {
+  font-size: 7px;
+  margin-left: 20px;
+}
+
+.allinstances-botton-section {
+  padding-left: 10px;
+}
+
+.each-instance {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  background-color: white;
+  height: 25px;
+  border-radius: 5px;
+  justify-content: space-between;
+}
+
+.each-instance-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.each-instance-edit-icon {
+  height: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+
+}
+
+.each-instance-delete-icon {
+  height: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}

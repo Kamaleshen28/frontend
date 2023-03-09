@@ -8,8 +8,12 @@ import editIcon from '../../assets/user-edit-text-message-note_2023-03-09/user-e
 import deleteIcon from '../../assets/trash-delete-recycle-bin-bucket-waste_2023-03-09/trash-delete-recycle-bin-bucket-waste@3x.png';
 import searchIconDark from '../../assets/icon-search-dark_2023-03-09/icon-search-dark@3x.png';
 import searchIconLight from '../../assets/icon-search-dark_2023-03-09/icon-search-dark@2x.png';
+import AllInstances from '../../components/allInstances/allInstances';
 
 export default function Home() {
+
+  const [isAllInstancePage, setIsAllInstancePage] = useState(false);
+  const [currentAllInstanceContentData, setCurrentAllInstanceContentData] = React.useState();
 
   const [allContentNames, setAllContentName] = useState([]);
   const [allContentNamesMiddleSection, setAllContentNameMiddleSection] = useState([]);
@@ -61,8 +65,17 @@ export default function Home() {
     fetchAllContentTypes();
   }, []);
 
+  const changeToAllInstance = (contentData) => {
+    setIsAllInstancePage(true);
+    setCurrentAllInstanceContentData(contentData);
+  };
+
+  const handleClickContentBuilder = () => {
+    setIsAllInstancePage(false);
+  };
+
   const renderContentName = allContentNames.map(eachContentData => {
-    return (<li className='content-name-text' key={eachContentData.id} >{eachContentData.contentName}</li>);
+    return (<li onClick={() => changeToAllInstance(eachContentData)} className='content-name-text' key={eachContentData.id} >{eachContentData.contentName}</li>);
   });
   const renderMiddleSectionContentName = allContentNamesMiddleSection.map(eachContentData => {
     return (<li onClick={() => handleCurrentContentClick(eachContentData)} className='content-name-text' key={eachContentData.id} >{eachContentData.contentName}</li>);
@@ -75,7 +88,6 @@ export default function Home() {
 
   const handleCreateNewContentClick = () => {
     setIsOpen(true);
-
   };
 
   const handleContentNameChange = (event) => {
@@ -109,32 +121,12 @@ export default function Home() {
   };
 
   const handleClickCardDelete = async (fieldD) => {
-    // var data = JSON.stringify({
-    //   'contentId': 2,
-    //   'field': 'netWorth'
-    // });
-
-    // var config = {
-    //   method: 'put',
-    //   maxBodyLength: Infinity,
-    //   url: 'http://localhost:4000/upadte/contenttype/schema/delete',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   data: data
-    // };
-
-    // axios(config);
-
-    const respose = await axios.put('http://localhost:4000/upadte/contenttype/schema/delete', {
+    await axios.put('http://localhost:4000/upadte/contenttype/schema/delete', {
       contentId: currentClickedContent.id,
       field: fieldD
     });
     const result = await axios.get(`http://localhost:4000/data/content/${currentClickedContent.contentName}`);
     setCurrentClickedContent(result.data.message);
-    console.log('WWW: ', result);
-    console.log('YYY: ', respose);
-    console.log('XXX: ', currentClickedContent);
   };
 
   const renderContentSchema = Object.keys(currentClickedContent.contentSchema).map((key, index) => {
@@ -158,11 +150,17 @@ export default function Home() {
     );
   });
 
+  const handleClickAddAnotherField = async () => {
+    await axios.put('http://localhost:4000/upadte/contenttype/schema/add', {
+      contentId: currentClickedContent.id,
+      field: 'testField'
+    });
+  };
+
   console.log('&&', renderContentSchema);
 
   return (
     <div>
-      {/* <Header /> */}
       <div className="main-body">
         <div className="sidebar">
           <div className="sidebar-header">
@@ -180,7 +178,7 @@ export default function Home() {
               </ul>
             </div>
           </div>
-          <div className="sidebar-content-type-builder-text">
+          <div className="sidebar-content-type-builder-text" onClick={handleClickContentBuilder}>
             CONTENT TYPE BUILDER
           </div>
 
@@ -191,8 +189,8 @@ export default function Home() {
           <div className="main-content-header">
             Content Types
           </div>
-          <div className="main-content-body">
-
+          {isAllInstancePage && <AllInstances {...currentAllInstanceContentData} />}
+          {!isAllInstancePage && <div className="main-content-body">
 
             {/* MIDDLE SECTION */}
             <div className="middle-section">
@@ -233,14 +231,11 @@ export default function Home() {
                       </div>
 
                     </div>
-                    {/* <H3 onClick={() => { setIsOpen(previousValue => !previousValue); }}>I am sample Content of Overlay</H3> */}
                   </div>
                 </Overlay>
               </div >
 
             </div>
-
-
 
             {/* RIGHT SECTION */}
             <div className="right-section">
@@ -251,7 +246,7 @@ export default function Home() {
                 </div>
 
                 <div className="right-section-middle">
-                  <span className="add-another-field-button">Add another field</span>
+                  <span className="add-another-field-button" onClick={handleClickAddAnotherField}>Add another field</span>
                 </div>
 
                 <div className="right-section-bottom">
@@ -260,15 +255,11 @@ export default function Home() {
                   </div>
                 </div>
 
-
-
               </div>}
             </div>
-          </div>
+          </div>}
 
         </div>
-
-        {/* <button className='dummy' onClick={dummyhandle}>SUBMIT</button> */}
       </div>
     </div >
   );
