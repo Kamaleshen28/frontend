@@ -8,9 +8,11 @@ export default function AddEditFieldForm(props) {
     contentId: props.id,
     field: ''
   });
+  console.log('12345', newFieldName);
 
   const handleClickCancel = () => {
     props.setIsAddEditFieldOverlay(false);
+    props.setIsAdd(false);
   };
 
   const handleChangeFieldName = (event) => {
@@ -24,10 +26,16 @@ export default function AddEditFieldForm(props) {
     const response = await axios.put('http://localhost:4000/upadte/contenttype/schema/add',
       {
         newFieldName
+      },
+      {
+        headers: { 'token': localStorage.getItem('token') }
       });
     console.log('???', response);
     props.setIsAddEditFieldOverlay(false);
-    const result = await axios.get(`http://localhost:4000/data/content/${props.contentName}`);
+    props.setIsAdd(false);
+    const result = await axios.get(`http://localhost:4000/data/content/${props.contentName}`, {
+      headers: { 'token': localStorage.getItem('token') }
+    });
     props.setCurrentClickedContent(result.data.message);
     props.setCallUseEffectHook(previousData => !previousData);
 
@@ -58,6 +66,7 @@ AddEditFieldForm.propTypes = {
   fieldData: PropTypes.object.isRequired,
   id: PropTypes.number.isRequired,
   setIsAddEditFieldOverlay: PropTypes.func.isRequired,
+  setIsAdd: PropTypes.func.isRequired,
   setCurrentClickedContent: PropTypes.func.isRequired,
   setCallUseEffectHook: PropTypes.func.isRequired
 };

@@ -15,6 +15,8 @@ import EditFieldForm from '../../components/editFieldForm/editFieldForm';
 export default function Home() {
 
   // const [currentField, setCurrentField] = useState('');
+  const [isAdd, setIsAdd] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [callUseEffectHook, setCallUseEffectHook] = useState(true);
   const [isAddEditFieldOverlay, setIsAddEditFieldOverlay] = useState(false);
   const [isAllInstancePage, setIsAllInstancePage] = useState(false);
@@ -70,7 +72,9 @@ export default function Home() {
   // };
 
   const fetchAllContentTypes = async () => {
-    const response = await axios.get('http://localhost:4000/all/contenttype');
+    const response = await axios.get('http://localhost:4000/all/contenttype', {
+      headers: { 'token': localStorage.getItem('token') }
+    });
     setAllContentName(response.data.message);
     setAllContentNameMiddleSection(response.data.message);
   };
@@ -107,7 +111,9 @@ export default function Home() {
   });
 
   const handleCurrentContentClick = async (contentData) => {
-    const response = await axios.get(`http://localhost:4000/data/content/${contentData.contentName}`);
+    const response = await axios.get(`http://localhost:4000/data/content/${contentData.contentName}`, {
+      headers: { 'token': localStorage.getItem('token') }
+    });
     setCurrentClickedContent(response.data.message);
   };
 
@@ -133,10 +139,14 @@ export default function Home() {
   const handleClickCreate = async () => {
     setIsOpen(false);
     //post the content
+    console.log('FRONTEND', localStorage.getItem('token'));
     const respose = await axios.post('http://localhost:4000/create/contenttype', {
       contentName: newContentData.contentName,
       contentSchema: {}
-    });
+    }, {
+      headers: { 'token': localStorage.getItem('token') }
+    }
+    );
     console.log('RESPOPO: ', respose);
     setAllContentNameMiddleSection(data => ([
       newContentData,
@@ -148,8 +158,12 @@ export default function Home() {
     await axios.put('http://localhost:4000/upadte/contenttype/schema/delete', {
       contentId: currentClickedContent.id,
       field: fieldD
+    }, {
+      headers: { 'token': localStorage.getItem('token') }
     });
-    const result = await axios.get(`http://localhost:4000/data/content/${currentClickedContent.contentName}`);
+    const result = await axios.get(`http://localhost:4000/data/content/${currentClickedContent.contentName}`, {
+      headers: { 'token': localStorage.getItem('token') }
+    });
     setCurrentClickedContent(result.data.message);
     setCallUseEffectHook(previousData => !previousData);
   };
@@ -160,7 +174,9 @@ export default function Home() {
       oldField: fieldD,
       id: currentClickedContent.id
     }));
+    setIsEdit(true);
     setIsAddEditFieldOverlay(true);
+    console.log('HEREHERETER', isEdit, isAddEditFieldOverlay);
   };
 
   const renderContentSchema = Object.keys(currentClickedContent.contentSchema).map((key, index) => {
@@ -185,7 +201,7 @@ export default function Home() {
   });
 
   const handleClickAddAnotherField = async () => {
-    // setCurrentField('');
+    setIsAdd(true);
     setIsAddEditFieldOverlay(true);
 
     // await axios.put('http://localhost:4000/upadte/contenttype/schema/add', {
@@ -198,22 +214,24 @@ export default function Home() {
 
   return (
     <div>
-      {isAddEditFieldOverlay &&
+      {isAddEditFieldOverlay && isAdd &&
         <AddEditFieldForm
           {...currentClickedContent}
           setIsAddEditFieldOverlay={setIsAddEditFieldOverlay}
           setCurrentClickedContent={setCurrentClickedContent}
           setCallUseEffectHook={setCallUseEffectHook}
+          setIsAdd={setIsAdd}
 
 
         />}
-      {isAddEditFieldOverlay &&
+      {isAddEditFieldOverlay && isEdit &&
         <EditFieldForm
           {...currentClickedContent}
           setIsAddEditFieldOverlay={setIsAddEditFieldOverlay}
           setCurrentClickedContent={setCurrentClickedContent}
           currentField={currentField}
           setCallUseEffectHook={setCallUseEffectHook}
+          setIsEdit={setIsEdit}
 
         />}
 
@@ -237,11 +255,12 @@ export default function Home() {
           </div>
 
 
-
         </div>
         <div className="main-content">
           <div className="main-content-header">
-            Content Types
+            {currentAllInstanceContentData && currentAllInstanceContentData.contentName}
+            {!currentAllInstanceContentData && 'Content Types'}
+
           </div>
           {isAllInstancePage && <AllInstances {...currentAllInstanceContentData} />}
           {!isAllInstancePage && <div className="main-content-body">

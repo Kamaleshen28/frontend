@@ -25,20 +25,28 @@ export default function EditInstanceValue(props) {
 
   const handleClickCancelInAddNewEntry = async () => {
     props.setIsAddNewEntryOn(false);
+    props.setIsEdit(false);
+
   };
 
   const fetchContentData = async () => {
-    const response = await axios.get(`http://localhost:4000/all/contenttype/instances/${props.id}`);
+    const response = await axios.get(`http://localhost:4000/all/contenttype/instances/${props.id}`, {
+      headers: { 'token': localStorage.getItem('token') }
+    });
     props.setContentInstanceData(response.data.message);
   };
 
   const handleClickAddInAddNewEntry = async () => {
     const response = await axios.put(`http://localhost:4000/upadte/instance/${props.instanceId}`, {
       instanceValues: instanceData
-    });
+    }, {
+      headers: { 'token': localStorage.getItem('token') }
+    }
+    );
     console.log(response);
     await fetchContentData();
     props.setIsAddNewEntryOn(false);
+    props.setIsEdit(false);
   };
 
 
@@ -69,5 +77,6 @@ EditInstanceValue.propTypes = {
   contentName: PropTypes.string.isRequired,
   setIsAddNewEntryOn: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
-  setContentInstanceData: PropTypes.func.isRequired
+  setContentInstanceData: PropTypes.func.isRequired,
+  setIsEdit: PropTypes.func.isRequired
 };

@@ -12,11 +12,14 @@ import EditInstanceValue from '../editInstanceValue/editInstanceValue';
 export default function AllInstances(props) {
   const [instanceId, setInstanceId] = useState();
   const [isEdit, setIsEdit] = useState(false);
+  const [isAdd, setIsAdd] = useState(false);
   const [contentInstanceData, setContentInstanceData] = useState([]);
   const [isAddNewEntryOn, setIsAddNewEntryOn] = useState(false);
 
   const fetchContentData = async () => {
-    const response = await axios.get(`http://localhost:4000/all/contenttype/instances/${props.id}`);
+    const response = await axios.get(`http://localhost:4000/all/contenttype/instances/${props.id}`, {
+      headers: { 'token': localStorage.getItem('token') }
+    });
     setContentInstanceData(response.data.message);
   };
   useEffect(() => {
@@ -25,7 +28,9 @@ export default function AllInstances(props) {
 
 
   const handleClickDeleteInstance = async (id) => {
-    const response = await axios.delete(`http://localhost:4000/delete/instance/${id}`);
+    const response = await axios.delete(`http://localhost:4000/delete/instance/${id}`, {
+      headers: { 'token': localStorage.getItem('token') }
+    });
     console.log(response);
     fetchContentData();
   };
@@ -72,23 +77,22 @@ export default function AllInstances(props) {
 
   const handleClickAddNewEntry = () => {
     setIsAddNewEntryOn(true);
+    setIsAdd(true);
   };
-
-
-
 
   return (
     <div className="allinstances-wrapper">
       <div className="allinstances-top-section">
-        <span className="number-of-instances">13 Entries Found</span>
+        <span className="number-of-instances">{contentInstanceData.length} Entries Found</span>
         {/* <span className="add-new-entry-text" >Add a new entry</span> */}
         <span className="add-new-entry-text" onClick={handleClickAddNewEntry}>Add a new entry</span>
       </div>
-      {isAddNewEntryOn && !isEdit &&
+      {isAddNewEntryOn && isAdd &&
         <AddNewEntryOverlay
           {...props}
           setIsAddNewEntryOn={setIsAddNewEntryOn}
           setContentInstanceData={setContentInstanceData}
+          setIsAdd={setIsAdd}
         />}
       {isAddNewEntryOn && isEdit &&
         <EditInstanceValue
@@ -97,6 +101,7 @@ export default function AllInstances(props) {
           setContentInstanceData={setContentInstanceData}
           instanceId={instanceId}
           contentInstanceData={contentInstanceData}
+          setIsEdit={setIsEdit}
         />}
 
       {/* <AddNewEntryOverlay /> */}

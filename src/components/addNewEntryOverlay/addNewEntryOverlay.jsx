@@ -23,10 +23,13 @@ export default function AddNewEntryOverlay(props) {
 
   const handleClickCancelInAddNewEntry = async () => {
     props.setIsAddNewEntryOn(false);
+    props.setIsAdd(false);
   };
 
   const fetchContentData = async () => {
-    const response = await axios.get(`http://localhost:4000/all/contenttype/instances/${props.id}`);
+    const response = await axios.get(`http://localhost:4000/all/contenttype/instances/${props.id}`, {
+      headers: { 'token': localStorage.getItem('token') }
+    });
     props.setContentInstanceData(response.data.message);
   };
 
@@ -34,10 +37,15 @@ export default function AddNewEntryOverlay(props) {
     const respose = await axios.post('http://localhost:4000/create/instance', {
       contentId: props.id,
       instanceValues: instanceData
-    });
+    }, {
+      headers: { 'token': localStorage.getItem('token') }
+    }
+    );
     console.log(respose);
     await fetchContentData();
     props.setIsAddNewEntryOn(false);
+    props.setIsAdd(false);
+
   };
 
 
@@ -67,5 +75,6 @@ AddNewEntryOverlay.propTypes = {
   contentSchema: PropTypes.array.isRequired,
   setIsAddNewEntryOn: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
-  setContentInstanceData: PropTypes.func.isRequired
+  setContentInstanceData: PropTypes.func.isRequired,
+  setIsAdd: PropTypes.func.isRequired
 };

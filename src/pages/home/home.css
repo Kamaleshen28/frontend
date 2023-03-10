@@ -3,6 +3,11 @@
   display: flex;
 }
 
+/* li::marker {
+  content: '✝ ';
+  color: white;
+  font-size: 1.2em;
+} */
 
 .sidebar {
   flex: 2;
@@ -66,9 +71,10 @@
 }
 
 .content-name-list {
-  /* list-style: none; */
+  /* list-style: upper-alpha; */
   padding: 0;
-  list-style-type: circle;
+  /* list-style-type: circle; */
+  /* list-style: inside; */
   /* margin: 0; */
 }
 

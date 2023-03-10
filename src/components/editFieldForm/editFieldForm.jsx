@@ -12,6 +12,7 @@ export default function EditFieldForm(props) {
 
   const handleClickCancel = () => {
     props.setIsAddEditFieldOverlay(false);
+    props.setIsEdit(false);
   };
 
   const handleChangeFieldName = (event) => {
@@ -40,13 +41,18 @@ export default function EditFieldForm(props) {
     // };
 
     // axios(config)
-    const response = await axios.put('http://localhost:4000/upadte/contenttype/schema/name',
-      {
-        newFieldName
-      });
+    const response = await axios.put('http://localhost:4000/upadte/contenttype/schema/name', {
+      newFieldName
+    }, {
+      headers: { 'token': localStorage.getItem('token') }
+    }
+    );
     console.log('???', response);
     props.setIsAddEditFieldOverlay(false);
-    const result = await axios.get(`http://localhost:4000/data/content/${props.contentName}`);
+    props.setIsEdit(false);
+    const result = await axios.get(`http://localhost:4000/data/content/${props.contentName}`, {
+      headers: { 'token': localStorage.getItem('token') }
+    });
     props.setCurrentClickedContent(result.data.message);
     props.setCallUseEffectHook(previousData => !previousData);
   };
@@ -75,9 +81,9 @@ EditFieldForm.propTypes = {
   currentField: PropTypes.string.isRequired,
   fieldName: PropTypes.string.isRequired,
   oldField: PropTypes.string.isRequired,
-  fieldData: PropTypes.object.isRequired,
   id: PropTypes.number.isRequired,
   setIsAddEditFieldOverlay: PropTypes.func.isRequired,
+  setIsEdit: PropTypes.func.isRequired,
   setCurrentClickedContent: PropTypes.func.isRequired,
   setCallUseEffectHook: PropTypes.func.isRequired
 };
