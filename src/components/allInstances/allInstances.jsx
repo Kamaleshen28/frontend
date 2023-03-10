@@ -6,9 +6,12 @@ import PropTypes from 'prop-types';
 import editIcon from '../../assets/user-edit-text-message-note_2023-03-09/user-edit-text-message-note.png';
 import deleteIcon from '../../assets/trash-delete-recycle-bin-bucket-waste_2023-03-09/trash-delete-recycle-bin-bucket-waste@3x.png';
 import AddNewEntryOverlay from '../addNewEntryOverlay/addNewEntryOverlay';
+import EditInstanceValue from '../editInstanceValue/editInstanceValue';
 
 
 export default function AllInstances(props) {
+  const [instanceId, setInstanceId] = useState();
+  const [isEdit, setIsEdit] = useState(false);
   const [contentInstanceData, setContentInstanceData] = useState([]);
   const [isAddNewEntryOn, setIsAddNewEntryOn] = useState(false);
 
@@ -28,6 +31,10 @@ export default function AllInstances(props) {
   };
 
   const handleClickEditInstance = async (id) => {
+    setInstanceId(id);
+    setIsEdit(true);
+    setIsAddNewEntryOn(true);
+
     console.log(id);
   };
 
@@ -77,7 +84,21 @@ export default function AllInstances(props) {
         {/* <span className="add-new-entry-text" >Add a new entry</span> */}
         <span className="add-new-entry-text" onClick={handleClickAddNewEntry}>Add a new entry</span>
       </div>
-      {isAddNewEntryOn && <AddNewEntryOverlay {...props} setIsAddNewEntryOn={setIsAddNewEntryOn} setContentInstanceData={setContentInstanceData} />}
+      {isAddNewEntryOn && !isEdit &&
+        <AddNewEntryOverlay
+          {...props}
+          setIsAddNewEntryOn={setIsAddNewEntryOn}
+          setContentInstanceData={setContentInstanceData}
+        />}
+      {isAddNewEntryOn && isEdit &&
+        <EditInstanceValue
+          {...props}
+          setIsAddNewEntryOn={setIsAddNewEntryOn}
+          setContentInstanceData={setContentInstanceData}
+          instanceId={instanceId}
+          contentInstanceData={contentInstanceData}
+        />}
+
       {/* <AddNewEntryOverlay /> */}
 
       <div className="allinstances-middle-section">

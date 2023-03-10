@@ -1,0 +1,96 @@
+.add-entry-overlay-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.add-entry-overlay-content {
+  background-color: white;
+  border: 2px solid #606163;
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* padding: 20px; */
+}
+
+.add-entry-overlay-body-top {
+  padding: 20px;
+}
+
+.add-entry-overlay-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-entry-overlay-top>p {
+  font-size: x-large;
+  color: #606163;
+}
+
+.add-entry-overlay-top>button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 2rem;
+  color: #606163;
+}
+
+.header-top {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.overlay-field-name {
+  font-size: 8px;
+}
+
+.input-field-value {
+  margin-top: 5px;
+  width: 100%;
+}
+
+.field-input-card {
+  /* display: flex;
+  flex-direction: column; */
+  /* align-content: flex-start; */
+}
+
+.add-entry-overlay-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: 0;
+  height: 40px;
+  width: 40%;
+  font-size: 8px;
+  /* background-color: rebeccapurple; */
+  box-shadow: -5px 5px 45px -10px rgba(0, 0, 0, 0.58);
+}
+
+.add-entry-overlay-add-button {
+  background-color: #8A5EF3;
+  width: 70px;
+  height: 20px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.add-entry-overlay-cancel-button {
+  cursor: pointer;
+}

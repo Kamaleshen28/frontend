@@ -40,7 +40,6 @@ export default function Home() {
     }
   );
 
-  console.log('BOOM', currentClickedContent);
   // const dummyhandle = async () => {
   //   console.log('SHIT', localStorage.getItem('token'));
   //   var data = JSON.stringify({
@@ -130,7 +129,6 @@ export default function Home() {
       newContentData,
       ...data
     ]));
-    console.log('GOT', allContentNamesMiddleSection);
   };
 
   const handleClickCardDelete = async (fieldD) => {
@@ -241,7 +239,7 @@ export default function Home() {
             <div className="middle-section">
 
               <div className="middle-section-header">
-                <div className="middle-section-types-number">7 Types</div>
+                <div className="middle-section-types-number">{allContentNames.length} Types</div>
                 <img src={searchIconDark} alt="" className="search-icon" />
               </div>
 

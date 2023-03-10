@@ -4,7 +4,6 @@ import axios from 'axios';
 import './editFieldForm.css';
 
 export default function EditFieldForm(props) {
-  console.log('SSS:', props);
   const [newFieldName, setNewFieldName] = useState({
     contentId: props.id,
     newField: props.currentField.oldField,
