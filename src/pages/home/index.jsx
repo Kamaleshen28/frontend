@@ -9,9 +9,11 @@ import deleteIcon from '../../assets/trash-delete-recycle-bin-bucket-waste_2023-
 import searchIconDark from '../../assets/icon-search-dark_2023-03-09/icon-search-dark@3x.png';
 import searchIconLight from '../../assets/icon-search-dark_2023-03-09/icon-search-dark@2x.png';
 import AllInstances from '../../components/allInstances/allInstances';
+import AddEditFieldForm from '../../components/addEditFieldForm/addEditFieldForm';
 
 export default function Home() {
 
+  const [isAddEditFieldOverlay, setIsAddEditFieldOverlay] = useState(false);
   const [isAllInstancePage, setIsAllInstancePage] = useState(false);
   const [currentAllInstanceContentData, setCurrentAllInstanceContentData] = React.useState();
 
@@ -151,16 +153,24 @@ export default function Home() {
   });
 
   const handleClickAddAnotherField = async () => {
-    await axios.put('http://localhost:4000/upadte/contenttype/schema/add', {
-      contentId: currentClickedContent.id,
-      field: 'testField'
-    });
+    setIsAddEditFieldOverlay(true);
+
+    // await axios.put('http://localhost:4000/upadte/contenttype/schema/add', {
+    //   contentId: currentClickedContent.id,
+    //   field: 'testField'
+    // });
   };
 
   console.log('&&', renderContentSchema);
 
   return (
     <div>
+      {isAddEditFieldOverlay &&
+        <AddEditFieldForm
+          {...currentClickedContent}
+          setIsAddEditFieldOverlay={setIsAddEditFieldOverlay}
+          setCurrentClickedContent={setCurrentClickedContent}
+        />}
       <div className="main-body">
         <div className="sidebar">
           <div className="sidebar-header">
