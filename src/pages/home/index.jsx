@@ -11,10 +11,12 @@ import pencilIcon from '../../assets/user-pencil-write-ui-education_2023-03-09/u
 import AllInstances from '../../components/allInstances/allInstances';
 import AddEditFieldForm from '../../components/addFieldForm/addFieldForm';
 import EditFieldForm from '../../components/editFieldForm/editFieldForm';
+import EditContentTypeName from '../../components/editContentTypeName/editContentTypeName';
 
 export default function Home() {
 
   // const [currentField, setCurrentField] = useState('');
+  const [isChangeContentNameUp, setIsChangeContentNameUp] = useState(false);
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [callUseEffectHook, setCallUseEffectHook] = useState(true);
@@ -86,7 +88,6 @@ export default function Home() {
     setIsAllInstancePage(true);
     setCurrentAllInstanceContentData(contentData);
   };
-  console.log('CURR', currentAllInstanceContentData);
 
   const handleClickContentBuilder = () => {
     setIsAllInstancePage(false);
@@ -203,17 +204,34 @@ export default function Home() {
   const handleClickAddAnotherField = async () => {
     setIsAdd(true);
     setIsAddEditFieldOverlay(true);
-
     // await axios.put('http://localhost:4000/upadte/contenttype/schema/add', {
     //   contentId: currentClickedContent.id,
     //   field: 'testField'
     // });
   };
 
+  const handleClickEditContentName = () => {
+    console.log('CLICKed');
+    setIsChangeContentNameUp(true);
+    console.log('BOOO:', currentClickedContent);
+
+  };
+
   console.log('&&', renderContentSchema);
 
   return (
     <div>
+      {isChangeContentNameUp &&
+        <EditContentTypeName
+          {...currentClickedContent}
+          setIsChangeContentNameUp={setIsChangeContentNameUp}
+          setCurrentClickedContent={setCurrentClickedContent}
+          setCallUseEffectHook={setCallUseEffectHook}
+
+
+        />
+      }
+
       {isAddEditFieldOverlay && isAdd &&
         <AddEditFieldForm
           {...currentClickedContent}
@@ -314,7 +332,7 @@ export default function Home() {
 
                 <div className="right-section-top">
                   <span className="right-section-current-content-name">{currentClickedContent.contentName}</span>
-                  <img src={pencilIcon} alt="" className="right-section-current-content-name-edit-icon" />
+                  <img src={pencilIcon} alt="" className="right-section-current-content-name-edit-icon" onClick={handleClickEditContentName} />
                 </div>
                 <span className="right-section-field-count">{Object.keys(currentClickedContent.contentSchema).length} Fields</span>
 
