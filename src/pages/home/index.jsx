@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import Header from '../../components/header/header';
 import './home.css';
 import axios from 'axios';
 import '@blueprintjs/core/lib/css/blueprint.css';
@@ -9,10 +8,13 @@ import deleteIcon from '../../assets/trash-delete-recycle-bin-bucket-waste_2023-
 import searchIconDark from '../../assets/icon-search-dark_2023-03-09/icon-search-dark@3x.png';
 import searchIconLight from '../../assets/icon-search-dark_2023-03-09/icon-search-dark@2x.png';
 import AllInstances from '../../components/allInstances/allInstances';
-import AddEditFieldForm from '../../components/addEditFieldForm/addEditFieldForm';
+import AddEditFieldForm from '../../components/addFieldForm/addFieldForm';
+import EditFieldForm from '../../components/editFieldForm/editFieldForm';
 
 export default function Home() {
 
+  // const [currentField, setCurrentField] = useState('');
+  const [callUseEffectHook, setCallUseEffectHook] = useState(true);
   const [isAddEditFieldOverlay, setIsAddEditFieldOverlay] = useState(false);
   const [isAllInstancePage, setIsAllInstancePage] = useState(false);
   const [currentAllInstanceContentData, setCurrentAllInstanceContentData] = React.useState();
@@ -29,6 +31,15 @@ export default function Home() {
     contentName: '',
     contentSchema: {}
   });
+
+  const [currentField, setcurrentField] = useState(
+    {
+      id: currentClickedContent.id,
+      oldField: '',
+      newField: ''
+    }
+  );
+
   console.log('BOOM', currentClickedContent);
   // const dummyhandle = async () => {
   //   console.log('SHIT', localStorage.getItem('token'));
@@ -65,7 +76,7 @@ export default function Home() {
   };
   useEffect(() => {
     fetchAllContentTypes();
-  }, []);
+  }, [callUseEffectHook]);
 
   const changeToAllInstance = (contentData) => {
     setIsAllInstancePage(true);
@@ -129,6 +140,16 @@ export default function Home() {
     });
     const result = await axios.get(`http://localhost:4000/data/content/${currentClickedContent.contentName}`);
     setCurrentClickedContent(result.data.message);
+    setCallUseEffectHook(previousData => !previousData);
+  };
+  ///////////////////////////---------------
+  const handleClickCardEdit = async (fieldD) => {
+    setcurrentField(previousData => ({
+      ...previousData,
+      oldField: fieldD,
+      id: currentClickedContent.id
+    }));
+    setIsAddEditFieldOverlay(true);
   };
 
   const renderContentSchema = Object.keys(currentClickedContent.contentSchema).map((key, index) => {
@@ -142,7 +163,7 @@ export default function Home() {
         </div>
         <div className="content-schema-card-right">
           {/* <img src={editIcon} onClick={handleClickCardEdit} alt="" className="content-schema-card-edit" /> */}
-          <img src={editIcon} alt="" className="content-schema-card-edit" />
+          <img src={editIcon} alt="" className="content-schema-card-edit" onClick={() => handleClickCardEdit(key)} />
           <img src={deleteIcon} onClick={() => handleClickCardDelete(key)} alt="" className="content-schema-card-delete" />
         </div>
 
@@ -153,6 +174,7 @@ export default function Home() {
   });
 
   const handleClickAddAnotherField = async () => {
+    // setCurrentField('');
     setIsAddEditFieldOverlay(true);
 
     // await axios.put('http://localhost:4000/upadte/contenttype/schema/add', {
@@ -170,7 +192,20 @@ export default function Home() {
           {...currentClickedContent}
           setIsAddEditFieldOverlay={setIsAddEditFieldOverlay}
           setCurrentClickedContent={setCurrentClickedContent}
+          setCallUseEffectHook={setCallUseEffectHook}
+
+
         />}
+      {isAddEditFieldOverlay &&
+        <EditFieldForm
+          {...currentClickedContent}
+          setIsAddEditFieldOverlay={setIsAddEditFieldOverlay}
+          setCurrentClickedContent={setCurrentClickedContent}
+          currentField={currentField}
+          setCallUseEffectHook={setCallUseEffectHook}
+
+        />}
+
       <div className="main-body">
         <div className="sidebar">
           <div className="sidebar-header">

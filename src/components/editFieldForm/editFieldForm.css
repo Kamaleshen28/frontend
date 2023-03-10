@@ -1,0 +1,68 @@
+.edit-overlay-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-overlay-content {
+  background-color: white;
+  border: 2px solid #606163;
+  width: 200px;
+  height: 150px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.edit-overlay-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-top {
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.edit-overlay-middle {
+  font-size: 10px;
+  margin-top: 10px;
+}
+
+.edit-overlay-content-name {
+  margin-top: 5px;
+  width: 100%;
+}
+
+.edit-overlay-bottom {
+  margin-top: 20px;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.edit-overlay-add-button {
+  background-color: #8A5EF3;
+  width: 70px;
+  height: 20px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.edit-overlay-cancel-button {
+  cursor: pointer;
+}

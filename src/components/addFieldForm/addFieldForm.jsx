@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import './addEditFieldForm.css';
+import './addFieldForm.css';
 
 export default function AddEditFieldForm(props) {
-
   const [newFieldName, setNewFieldName] = useState({
     contentId: props.id,
     field: ''
@@ -30,6 +29,8 @@ export default function AddEditFieldForm(props) {
     props.setIsAddEditFieldOverlay(false);
     const result = await axios.get(`http://localhost:4000/data/content/${props.contentName}`);
     props.setCurrentClickedContent(result.data.message);
+    props.setCallUseEffectHook(previousData => !previousData);
+
   };
 
   return (
@@ -40,7 +41,7 @@ export default function AddEditFieldForm(props) {
         </div>
         <div className='add-edit-overlay-middle'>
           <span className="add-edit-overlay-content-name">Content Name</span>
-          <input type="text" className="add-edit-overlay-content-name" onChange={handleChangeFieldName} />
+          <input type="text" value={newFieldName.field} className="add-edit-overlay-content-name" onChange={handleChangeFieldName} />
         </div>
         <div className="add-edit-overlay-bottom">
           <span className="add-edit-overlay-cancel-button" onClick={handleClickCancel}>Cancel</span>
@@ -53,9 +54,10 @@ export default function AddEditFieldForm(props) {
 
 AddEditFieldForm.propTypes = {
   contentName: PropTypes.string.isRequired,
-  // contentSchema: PropTypes.array.isRequired,
-  // setIsAddNewEntryOn: PropTypes.func.isRequired,
+  fieldName: PropTypes.string.isRequired,
+  fieldData: PropTypes.object.isRequired,
   id: PropTypes.number.isRequired,
   setIsAddEditFieldOverlay: PropTypes.func.isRequired,
-  setCurrentClickedContent: PropTypes.func.isRequired
+  setCurrentClickedContent: PropTypes.func.isRequired,
+  setCallUseEffectHook: PropTypes.func.isRequired
 };
