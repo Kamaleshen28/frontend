@@ -101,10 +101,7 @@ export default function Home() {
     return (
       <li onClick={() => changeToAllInstance(eachContentData)} className='content-name-text' key={eachContentData.id} > {eachContentData.contentName}</li >);
   });
-  console.log('CURRENT: ', currentClickedContent.id);
   const renderMiddleSectionContentName = allContentNamesMiddleSection.map(eachContentData => {
-    console.log('CURRENT: ', currentClickedContent.id === eachContentData.id);
-
     return (<div key={eachContentData.id} onClick={() => handleCurrentContentClick(eachContentData)} className={currentClickedContent.id === eachContentData.id ? 'middle-list-item highlighted-content' : 'middle-list-item'}>
       <li className='middle-content-name-text' key={eachContentData.id} >{eachContentData.contentName}</li>
       <span className="middle-section-field-count">{Object.keys(eachContentData.contentSchema).length}</span>
@@ -168,7 +165,8 @@ export default function Home() {
     setCurrentClickedContent(result.data.message);
     setCallUseEffectHook(previousData => !previousData);
   };
-  ///////////////////////////---------------
+
+
   const handleClickCardEdit = async (fieldD) => {
     setcurrentField(previousData => ({
       ...previousData,
@@ -216,8 +214,6 @@ export default function Home() {
     console.log('BOOO:', currentClickedContent);
 
   };
-
-  console.log('&&', renderContentSchema);
 
   return (
     <div>

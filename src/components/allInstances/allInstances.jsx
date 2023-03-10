@@ -44,11 +44,14 @@ export default function AllInstances(props) {
   };
 
   const renderFieldName = Object.keys(props.contentSchema).map((key, index) => {
-    return (
-      <div key={index} >
-        <div className='field-name'>{key}</div>
-      </div>
-    );
+    if (index < 4) {
+      return (
+        <div key={index} >
+          <div className='field-name'>{key}</div>
+        </div>
+      );
+
+    }
   });
 
   let renderAllInstanceData = [];
@@ -59,12 +62,15 @@ export default function AllInstances(props) {
       return (<div className='each-instance' key={index}>
         <div className="each-instance-right">
           {(Object.keys(data.instanceValues).map((key, index) => {
-            return (
-              <div className='wrapper' key={index} >
-                {/* <div className='value-text'>{key}</div> */}
-                <div className='value-text'>{data.instanceValues[key]}</div>
-              </div>
-            );
+            if (index < 4) {
+              return (
+                <div className='wrapper' key={index} >
+                  {/* <div className='value-text'>{key}</div> */}
+                  <div className='value-text'>{data.instanceValues[key]}</div>
+                </div>
+              );
+            }
+
           }))}
         </div>
         <div className="each-instance-left">
