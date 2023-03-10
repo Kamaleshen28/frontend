@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './login.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import loginImage from '../../assets/undraw-upload-re-pasx_2023-03-09/undraw-upload-re-pasx@2x.png';
 
 export default function Login() {
 
@@ -86,24 +87,54 @@ export default function Login() {
   return (
     <div className="login-page">
       <div className="login-page-decoration">
+        <div className="login-page-decor-top">
+          <div className="login-page-decor-top-right">
+            <h1 className="login-page-decor-top-text">Design APIs fast,</h1>
+            <h1 className="login-page-decor-top-text">Manage content easily</h1>
+          </div>
+          <div className="login-page-decor-top-left">
+            <div className="ball-top">
+              <span className="big-box"></span>
+            </div>
+            <div className="ball-bottom">
+              <span className="small-box"></span>
+            </div>
+          </div>
+          {/* <span className="togin-page-decor-top-text">Design APIs fast, Manage content easily</span> */}
+        </div>
+        <img src={loginImage} alt="" className="login-page-image" />
+        <div className="bottom-login-decor">
+          <div className="login-img-container">
+          </div>
+          {/* <div className="bottom-below-image">
+            <div className="ball-bottom-top">
+              <span className="big-bottom-box"></span>
+            </div>
+            <div className="ball-bottom-bottom">
+              <span className="small-bottom-box"></span>
+            </div>
+          </div> */}
+
+        </div>
 
       </div>
       <div className="login-wrapper">
+        <h1 className="left-login-title">Login to your CMS+ account</h1>
         <div className="form-container">
           {haveAccount && <form className="form" onSubmit={handleLoginSubmit}>
+            <span className="email-text">Email</span>
             <input
               type="username"
               className="form-input"
-              placeholder='UserName'
               value={formData.userName}
               name='userName'
               onChange={handleChange}
             />
             <br />
+            <span className="password-text">Password</span>
             <input
               type="password"
               className="form-input"
-              placeholder='Password'
               value={formData.password}
               name='password'
               onChange={handleChange}
@@ -112,28 +143,31 @@ export default function Login() {
             <button className='submit-button'>Login</button>
           </form>}
           {!haveAccount && <form className="form" onSubmit={handleRegisterSubmit}>
+            <span className="email-text">Email</span>
+
             <input
               type="username"
               className="form-input"
-              placeholder='UserName'
               value={registerFormData.userName}
               name='userName'
               onChange={handleRegisterDetailChange}
             />
             <br />
+            <span className="password-text">Password</span>
+
             <input
               type="password"
               className="form-input"
-              placeholder='Password'
               value={registerFormData.password}
               name='password'
               onChange={handleRegisterDetailChange}
             />
             <br />
+            <span className="password-text">Confirm Password</span>
+
             <input
               type="password"
               className="form-input"
-              placeholder='Confirm Password'
               value={registerFormData.confirmPassword}
               name='confirmPassword'
               onChange={handleRegisterDetailChange}
