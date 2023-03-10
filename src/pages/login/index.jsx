@@ -10,11 +10,11 @@ export default function Login() {
 
   const [haveAccount, setHaveAccount] = useState(true);
   const [formData, setFormData] = useState({
-    userName: '',
+    email: '',
     password: ''
   });
   const [registerFormData, setRegisterFormData] = useState({
-    userName: '',
+    email: '',
     password: '',
     confirmPassword: ''
   });
@@ -39,6 +39,7 @@ export default function Login() {
   };
   const handleRegisterSubmit = (event) => {
     event.preventDefault();
+    console.log('FINAL', registerFormData);
     if (registerFormData.password === registerFormData.confirmPassword) {
       callCreateUserAPI(registerFormData);
     }
@@ -50,7 +51,7 @@ export default function Login() {
 
   const sendLoginData = async (loginCredentials) => {
     var data = ({
-      'userName': loginCredentials.userName,
+      'email': loginCredentials.email,
       'password': loginCredentials.password
     });
     const response = await axios.post(
@@ -69,7 +70,7 @@ export default function Login() {
 
   const callCreateUserAPI = async (userDetails) => {
     var data = ({
-      'userName': userDetails.userName,
+      'email': userDetails.email,
       'password': userDetails.password
     });
     const response = await axios.post(
@@ -124,10 +125,10 @@ export default function Login() {
           {haveAccount && <form className="form" onSubmit={handleLoginSubmit}>
             <span className="email-text">Email</span>
             <input
-              type="username"
+              type="email"
               className="form-input"
-              value={formData.userName}
-              name='userName'
+              value={formData.email}
+              name='email'
               onChange={handleChange}
             />
             <br />
@@ -146,10 +147,10 @@ export default function Login() {
             <span className="email-text">Email</span>
 
             <input
-              type="username"
+              type="email"
               className="form-input"
-              value={registerFormData.userName}
-              name='userName'
+              value={registerFormData.email}
+              name='email'
               onChange={handleRegisterDetailChange}
             />
             <br />
