@@ -7,6 +7,7 @@ import editIcon from '../../assets/user-edit-text-message-note_2023-03-09/user-e
 import deleteIcon from '../../assets/trash-delete-recycle-bin-bucket-waste_2023-03-09/trash-delete-recycle-bin-bucket-waste@3x.png';
 import searchIconDark from '../../assets/icon-search-dark_2023-03-09/icon-search-dark@3x.png';
 import searchIconLight from '../../assets/icon-search-dark_2023-03-09/icon-search-dark@2x.png';
+import pencilIcon from '../../assets/user-pencil-write-ui-education_2023-03-09/user-pencil-write-ui-education@2x.png';
 import AllInstances from '../../components/allInstances/allInstances';
 import AddEditFieldForm from '../../components/addFieldForm/addFieldForm';
 import EditFieldForm from '../../components/editFieldForm/editFieldForm';
@@ -81,16 +82,28 @@ export default function Home() {
     setIsAllInstancePage(true);
     setCurrentAllInstanceContentData(contentData);
   };
+  console.log('CURR', currentAllInstanceContentData);
 
   const handleClickContentBuilder = () => {
     setIsAllInstancePage(false);
   };
 
   const renderContentName = allContentNames.map(eachContentData => {
-    return (<li onClick={() => changeToAllInstance(eachContentData)} className='content-name-text' key={eachContentData.id} >{eachContentData.contentName}</li>);
+    // let customClass = 'content-name-text;';
+    // if (!currentAllInstanceContentData) {
+    //   customClass = (currentAllInstanceContentData.id === eachContentData.id ? 'content-name-text black-highlighted' : 'content-name-text');
+    // }
+    return (
+      <li onClick={() => changeToAllInstance(eachContentData)} className='content-name-text' key={eachContentData.id} > {eachContentData.contentName}</li >);
   });
+  console.log('CURRENT: ', currentClickedContent.id);
   const renderMiddleSectionContentName = allContentNamesMiddleSection.map(eachContentData => {
-    return (<li onClick={() => handleCurrentContentClick(eachContentData)} className='content-name-text' key={eachContentData.id} >{eachContentData.contentName}</li>);
+    console.log('CURRENT: ', currentClickedContent.id === eachContentData.id);
+
+    return (<div key={eachContentData.id} onClick={() => handleCurrentContentClick(eachContentData)} className={currentClickedContent.id === eachContentData.id ? 'middle-list-item highlighted-content' : 'middle-list-item'}>
+      <li className='middle-content-name-text' key={eachContentData.id} >{eachContentData.contentName}</li>
+      <span className="middle-section-field-count">{Object.keys(eachContentData.contentSchema).length}</span>
+    </div>);
   });
 
   const handleCurrentContentClick = async (contentData) => {
@@ -215,11 +228,9 @@ export default function Home() {
               <img src={searchIconLight} alt="" className="search-icon" />
             </div>
 
-            <div className="sidebar-body-list">
-              <ul className='content-name-list'>
-                {renderContentName}
-              </ul>
-            </div>
+            <ul className='content-name-list'>
+              {renderContentName}
+            </ul>
           </div>
           <div className="sidebar-content-type-builder-text" onClick={handleClickContentBuilder}>
             CONTENT TYPE BUILDER
@@ -247,11 +258,9 @@ export default function Home() {
                 <span className="new-type-button" >+ New Type</span>
               </div>
 
-              <div className="middle-section-content-name-list">
-                <ul className='middle-section-content-name-list'>
-                  {renderMiddleSectionContentName}
-                </ul>
-              </div>
+              <ul className='middle-section-content-name-list'>
+                {renderMiddleSectionContentName}
+              </ul>
 
               {/* OVER LAY */}
               <div className='overlay-create-content' >
@@ -286,7 +295,9 @@ export default function Home() {
 
                 <div className="right-section-top">
                   <span className="right-section-current-content-name">{currentClickedContent.contentName}</span>
+                  <img src={pencilIcon} alt="" className="right-section-current-content-name-edit-icon" />
                 </div>
+                <span className="right-section-field-count">{Object.keys(currentClickedContent.contentSchema).length} Fields</span>
 
                 <div className="right-section-middle">
                   <span className="add-another-field-button" onClick={handleClickAddAnotherField}>Add another field</span>
